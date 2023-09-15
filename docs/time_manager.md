@@ -13,7 +13,7 @@ The time_manager.sh file is in charge of creating and executing workflows that t
 
     * Run the createWorkflow() function 
 
-**Required File Parameters:** This file takes a required parameter that specifies the path to the project folder.
+**Required File Parameters:** None
 
 ***
 

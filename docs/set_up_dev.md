@@ -3,7 +3,7 @@
 ## Overview
 The set_up_dev.sh file is in charge of navigating to projects given a file path to the project and executing git commands and github commands via the github CLI. This file will help developers.  
 
-**Required File Parameters:** This file takes a required parameter that specifies the path to the project folder.
+**Required File Parameters:** None
 
 ***
 

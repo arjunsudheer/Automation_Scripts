@@ -2,7 +2,7 @@
 
 chooseFunction(){
     # navigate back to the automation scripts directory to properly execute the functions
-    cd $automationScriptsDirectory/src/set_up_dev
+    cd $automationScriptsDirectory
 
     # store the function options in an array
     local functionOptions=("navigateToProject" "performGithubActions" "go back" "exit")
@@ -32,18 +32,14 @@ chooseFunction(){
     chooseFunction
 }
 
-if [[ -z "$1" ]]; then
-    echo "Error in running set_up_dev.sh."
-	echo "Note: You must specify the path to the automation scripts src folder as an argument."
-	exit
-else
-    echo -e "Note: It is expected that you have git installed and the github CLI installed."
-    automationScriptsDirectory=$1
-    # navigate to the current project directory
-    cd $automationScriptsDirectory/src/set_up_dev
-    # include all the functions from set_up_dev.sh
-    . set_up_dev.sh
-    # include all the functions from prompt_user.sh
-    . ../prompt_user.sh
-    chooseFunction
-fi
+
+echo -e "Note: It is expected that you have git installed and the github CLI installed."
+# get the project directory absolute path
+automationScriptsDirectory=$(< .project_path.txt)
+# navigate to the project directory
+cd $automationScriptsDirectory
+# include all the functions from set_up_dev.sh
+. src/set_up_dev/set_up_dev.sh
+# include all the functions from prompt_user.sh
+. src/prompt_user.sh
+chooseFunction

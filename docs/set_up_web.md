@@ -3,7 +3,7 @@
 ## Overview
 The set_up_web.sh file will open the specified web page url in the specified browser on your computer.
 
-**Required File Parameters:** This file takes a required parameter that specifies the path to the project folder.
+**Required File Parameters:** None
 
 ***
 

@@ -1,7 +1,7 @@
 ## Overview
 The set_up_files_and_directories.sh file will open the specified file or directory on your computer.
 
-**Required File Parameters:** This file takes a required parameter that specifies the path to the project folder.
+**Required File Parameters:** None
 
 ***
 

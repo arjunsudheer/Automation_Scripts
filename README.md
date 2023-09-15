@@ -52,17 +52,15 @@ In order to download the automation scripts, we recommend that you clone this re
 
 ## How to Use Automation Scripts
 
-We value your feedback to help us improve Automation Scripts. Please fill out our [Automation Scripts Review Form](https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAN__lyUDhlUQ0ZDVlVIWkRCUFY1MUw1NzU5RDRJRDZMVy4u) to provide us feedback on Automation Scripts.
-
 ### Setting up files for automation scripts to run effectively
 
 Once you have the automation scripts downloaded, you can begin using them soon, but there is still one more setup step left. The github repository does not contain the personal_automation_info directory or any of the files contained with it as these files need to be personalized for each user. Therefore, you will need to setup this directory for your use.
 
 In the terminal, run the following command to run the setup process to create the personal_automation_info directory and the files inside of it:
 
-```bash <path to main.sh> <path to automation scripts folder>```
+```bash <path to main.sh>```
 
-Make sure to use absolute paths for the main.sh file and the automation scritps folder.
+Make sure to use absolute paths for the main.sh file.
 
 Once you run the command above, it will take care of setting up the personal_automation_info directory for you. Refer to the next section for a brief description of how to use the files within the personal_automation_info directory.
 

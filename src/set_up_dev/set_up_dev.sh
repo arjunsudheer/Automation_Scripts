@@ -5,7 +5,7 @@ exec 3<&0
 navigateToProject() {
     IFS=","
     # navigate to the current project directory
-    cd $automationScriptsDirectory/src
+    cd $automationScriptsDirectory
     # array to store all the available projects
     declare -a projectNames
     # array to store all the available project paths
@@ -16,7 +16,7 @@ navigateToProject() {
         projectNames+=($name)
         projectPaths+=($path)
         (( projectCount++ ))
-    done < <(tail -n +2 $automationScriptsDirectory/personal_automation_info/set_up_dev.csv)
+    done < <(tail -n +2 personal_automation_info/set_up_dev.csv)
 	projectNames+=("go back")
     projectNames+=("exit")
 
@@ -40,7 +40,7 @@ navigateToProject() {
     if [[ $pathName == "null" ]]; then
         echo -e "\nInvalid selection. If you want to open a new project, please make sure that the project name and path is added to the \"set_up_dev.csv\" file."
         echo -e "This is what your \"set_up_dev.csv\" file has right now.\n"
-        cat $automationScriptsDirectory/personal_automation_info/set_up_dev.csv
+        cat personal_automation_info/set_up_dev.csv
         echo -e "\n"
     else
         # navigate to the specified path
@@ -131,11 +131,7 @@ performGithubActions(){
     done
 }
 
-# check if the path to the current directory was passed
-if [[ -z "$1" ]]; then
-    echo "Error in running set_up_dev.sh."
-	echo "Note: You must specify the path to the automation scripts src folder as an argument."
-	exit
-else    
-    automationScriptsDirectory=$1
-fi
+# get the project directory absolute path
+automationScriptsDirectory=$(< .project_path.txt)
+# navigate to the project directory
+cd $automationScriptsDirectory

@@ -1,9 +1,6 @@
 #!/bin/bash
 
 chooseFunction(){
-    # navigate back to the automation scripts directory to properly execute the functions
-    cd $automationScriptsDirectory/src/set_up_apps
-
     # store the function options in an array
     local functionOptions=("openApps" "go back" "exit")
 
@@ -29,17 +26,10 @@ chooseFunction(){
     chooseFunction
 }
 
-if [[ -z "$1" ]]; then
-    echo "Error in running run_set_up_apps.sh."
-	echo "Note: You must specify the path to the automation scripts src folder as an argument."
-	exit
-else
-    automationScriptsDirectory=$1
-    # navigate to the current project directory
-    cd $automationScriptsDirectory/src/set_up_apps
-    # include all the functions from set_up_apps.sh
-    . set_up_apps.sh
-    # include all the functions from prompt_user.sh
-    . ../prompt_user.sh
-    chooseFunction
-fi
+# navigate to the project directory
+cd $(< .project_path.txt)
+# include all the functions from set_up_apps.sh
+. src/set_up_apps/set_up_apps.sh
+# include all the functions from prompt_user.sh
+. src/prompt_user.sh
+chooseFunction

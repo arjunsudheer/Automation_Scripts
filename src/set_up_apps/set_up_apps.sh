@@ -7,7 +7,7 @@ openApps() {
     while read line || [ -n "$line" ]; do
         appsOptions+=($line)
         (( appsCount++ ))
-    done < $automationScriptsDirectory/personal_automation_info/set_up_apps.txt
+    done < personal_automation_info/set_up_apps.txt
     appsOptions+=("go back")
     appsOptions+=("exit")
     
@@ -32,7 +32,7 @@ openApps() {
         else
             echo -e "\nInvalid selection. If you want to open a new file or directory, please make sure that the name and path are added to the \"set_up_apps.txt\" file."
             echo -e "This is what your \"set_up_apps.txt\" file has right now.\n"
-            cat $automationScriptsDirectory/personal_automation_info/set_up_apps.txt
+            cat personal_automation_info/set_up_apps.txt
             echo -e "\n"
         fi
     # if the user types the name of the app instead, then just use the app name
@@ -46,11 +46,5 @@ openApps() {
     fi
 }
 
-# check if the path to the current directory was passed
-if [[ -z "$1" ]]; then
-    echo "Error in running set_up_apps.sh."
-	echo "Note: You must specify the path to the automation scripts src folder as an argument."
-	exit
-else    
-    automationScriptsDirectory=$1
-fi
+# navigate to the project directory
+cd $(< .project_path.txt)

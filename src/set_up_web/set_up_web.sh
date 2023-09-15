@@ -13,7 +13,7 @@ openWebPage() {
         urlOptions+=($url)
         browserOptions+=($browser)
         (( urlCount++ ))
-    done < <(tail -n +2 $automationScriptsDirectory/personal_automation_info/set_up_web.csv)
+    done < <(tail -n +2 personal_automation_info/set_up_web.csv)
     urlOptions+=("go back")
     urlOptions+=("exit")
     
@@ -39,7 +39,7 @@ openWebPage() {
         else
             echo -e "\nInvalid selection. If you want to open a new file or directory, please make sure that the name and path are added to the \"set_up_web.csv\" file."
             echo -e "This is what your \"set_up_web.csv\" file has right now.\n"
-            cat $automationScriptsDirectory/personal_automation_info/set_up_web.csv
+            cat personal_automation_info/set_up_web.csv
             echo -e "\n"
         fi
     # if the user types the url instead, then just use the url name
@@ -53,11 +53,5 @@ openWebPage() {
     fi
 }
 
-# check if the path to the current directory was passed
-if [[ -z "$1" ]]; then
-    echo "Error in running set_up_web.sh."
-	echo "Note: You must specify the path to the automation scripts src folder as an argument."
-	exit
-else    
-    automationScriptsDirectory=$1
-fi
+# navigate to the project directory
+cd $(< .project_path.txt)

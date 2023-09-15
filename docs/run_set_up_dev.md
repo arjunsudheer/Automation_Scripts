@@ -3,7 +3,7 @@
 ## Overview
 The run set_up_dev.sh file is in charge of running set_up_dev.sh when the user wants to run a command from set_up_dev.sh. This file will not be used for an automated call for set_up_dev.sh.
 
-**Required File Parameters:** This file takes a required parameter that specifies the path to the project folder.
+**Required File Parameters:** None
 
 ## chooseFunction() 
 **Parameters:** None

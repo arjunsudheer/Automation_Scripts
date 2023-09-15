@@ -3,7 +3,7 @@
 ## Overview
 The main.sh file is the center of the automation scripts project. This file is what will run other files and should be where the user starts. main.sh is in charge of prompting the user regarding which automation script they want to run. It will also check if set up has been completed, and if it isn't, it will set up the project by creating the personal_automation_info directory and the respective text files within it.
 
-**Required File Parameters:** This file takes a required parameter that specifies the path to the project folder.
+**Required File Parameters:** None
 
 ***
 

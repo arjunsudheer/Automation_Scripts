@@ -38,7 +38,7 @@ openFilesAndDirectories() {
         else
             echo -e "\nInvalid selection. If you want to open a new file or directory, please make sure that the name and path are added to the \"set_up_files_or_directories.csv\" file."
             echo -e "This is what your \"set_up_files_or_directories.csv\" file has right now.\n"
-            cat $automationScriptsDirectory/personal_automation_info/set_up_files_or_directories.csv
+            cat personal_automation_info/set_up_files_or_directories.csv
             echo -e "\n"
         fi
     # if the user types the name of the app instead, then just use the app name
@@ -52,11 +52,7 @@ openFilesAndDirectories() {
     fi
 }
 
-# check if the path to the current directory was passed
-if [[ -z "$1" ]]; then
-    echo "Error in running set_up_files_and_directories.sh."
-	echo "Note: You must specify the path to the automation scripts src folder as an argument."
-	exit
-else    
-    automationScriptsDirectory=$1
-fi
+# get the project directory absolute path
+automationScriptsDirectory=$(< .project_path.txt)
+# navigate to the project directory
+cd $automationScriptsDirectory
