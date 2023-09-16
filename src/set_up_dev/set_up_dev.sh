@@ -116,9 +116,33 @@ performGithubActions(){
                 ;;
             7|"merge")
                 read -p "Enter the name of the branch you would like to merge with main: " branchName <&3
-                # merge the specified branch with main using a squash commit, delete the local and remote branch afters
-                $(gh pr merge $branchName --squash --delete-branch)
-                ;; 
+                mergeTypes=("merge commit" "squash commit" "rebase commit" "go back" "exit")
+                promptUser ${mergeTypes[@]}
+                read -p "What type of merge would you like to perform: " mergeType
+                case $mergeType in
+                    1|"merge commit")
+                        # merge the specified branch with main using a merge commit, delete the local and remote branch afters
+                        $(gh pr merge $branchName --merge --delete-branch)
+                        ;;
+                    2|"squash commit")
+                        # merge the specified branch with main using a squash commit, delete the local and remote branch afters
+                        $(gh pr merge $branchName --squash --delete-branch)
+                        ;;
+                    3|"rebase commit")
+                        # merge the specified branch with main using a rebase commit, delete the local and remote branch afters
+                        $(gh pr merge $branchName --rebase --delete-branch)
+                        ;;
+                    4|"go back")
+                        return
+                        ;;
+                    5|"exit")
+                        exit
+                        ;;
+                    *)
+                        echo "Invalid option"
+                        ;;
+                esac
+                ;;
             8|"go back")
                 return 4
                 ;;
