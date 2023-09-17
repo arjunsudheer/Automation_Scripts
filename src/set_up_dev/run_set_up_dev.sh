@@ -9,7 +9,7 @@ chooseFunction(){
 
     promptUser "${functionOptions[@]}"
 
-    read -p "What do you want to run: " devChoice
+    read -r -p "What do you want to run: " devChoice
 
     case $devChoice in
         1|"navigateToProject")

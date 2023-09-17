@@ -1,11 +1,10 @@
 #!/bin/bash
 
-exec 3<&0
-
-
 createWorkflow() {
     # navigate to current project directory
     cd $automationScriptsDirectory
+
+    IFS=""
 
     # Note: The workflowFunctions array is not creating using the "declare" keyword so that it can be unset
     local workflowFunctions=()
@@ -14,10 +13,10 @@ createWorkflow() {
     local workflowCommand="y"
     until [[ $workflowCommand == "n" ]]; do
         echo -e "\n"
-        read -p "What do you want to name this workflow step: " workflowStepName
+        read -r -p "What do you want to name this workflow step: " workflowStepName
         while [[ true ]]; do
             promptUser "${availableWorkflowCommands[@]}"
-            read -p "Which functions would you like to add to your workflow? Select \"done\" to stop entering functions: " workflowStep
+            read -r -p "Which functions would you like to add to your workflow? Select \"done\" to stop entering functions: " workflowStep
             case $workflowStep in
                 1|"navigateToProject")
                     workflowFunctions+=(openProject)
@@ -43,30 +42,26 @@ createWorkflow() {
         done
 
         # check if the lenght of the workFlowFunctions array is not 0
-        if [[ ${#workflowFunctions} -ne 0 ]]; then
-            # append the wofkFlowStepTime variable to the time_manager.csv file
-            echo $workflowStepName >> personal_automation_info/time_manager.csv
-            
-            # append the workflowFunctions array to the time_manager.csv file
-            echo "${workflowFunctions[@]}" >> personal_automation_info/time_manager.csv
-        
-            read -p "How much time (in minutes) do you want to spend on this workflow step: " workflowStepTime
-            # append the wofkFlowStepTime variable to the time_manager.csv file
-            echo $workflowStepTime >> personal_automation_info/time_manager.csv
+        if [[ ${#workflowFunctions} -ne 0 ]]; then  
+            read -r -p "How much time (in minutes) do you want to spend on this workflow step: " workflowStepTime
+            # store the workflow step information in one variable
+            workflowAddition=$workflowStepName,${workflowFunctions[@]},$workflowStepTime
+            # append the workflowAddition variable to the time_manager.csv file
+            echo $workflowAddition >> personal_automation_info/time_manager.csv
         fi
 
          # unset the workflowFunctions array for the next iteration
         unset workflowFunctions[@]
 
         echo -e "\n"
-        read -p "Do you want to add more workflow commands? (y/n): " workflowCommand
+        read -r -p "Do you want to add more workflow commands? (y/n): " workflowCommand
     done
 }
 
 executeWorkflow() {
     IFS=","
     local count=1
-    while read -u 9 -r stepName commandName time || [ -n "$name" ]; do
+    while read -u 9 -r stepName commandName time; do
         echo -e "\nNow working on $stepName.\n"
 
         # run each command specified in the array
@@ -145,7 +140,7 @@ requestWorkflowModifications() {
     promptUser "${modifications[@]}"
 
     # set a timeout to have the read command expire once the countdown is over
-    read -t $timeLeft -p "Which workflow modification would you like to run: " workflowModification <&3
+    read -r -t $timeLeft -p "Which workflow modification would you like to run: " workflowModification
     while [[ ( $workflowModification != "quit workflow" || $workflowModification -ne 5 ) && $timeLeft -ne 0 ]]; do
         case $workflowModification in
             1|"mute")
@@ -160,7 +155,7 @@ requestWorkflowModifications() {
                 createWorkflow
                 ;;
             4|"add more time")
-                read -p "How much more time (in minutes) do you want to add: " extraTime
+                read -r -p "How much more time (in minutes) do you want to add: " extraTime
                 local timeInSeconds=$(( extraTime * 60 ))
                 timeLeft=$(< personal_automation_info/time_tracker_temp.txt)
                 echo $(( timeLeft + timeInSeconds )) > personal_automation_info/time_tracker_addition.txt
@@ -181,13 +176,16 @@ requestWorkflowModifications() {
                 ;;
             *)
                 echo -e "\nInvalid Modification Selected\n"
-                # exit
         esac
         echo -e "\n"
-        timeLeft=$(< personal_automation_info/time_tracker_temp.txt)
+        if [[ -f personal_automation_info/time_tracker_temp.txt ]]; then
+            timeLeft=$(< personal_automation_info/time_tracker_temp.txt)
+        else
+            timeLeft=0
+        fi
         promptUser "${modifications[@]}"
         # set a timeout to have the read command expire once the countdown is over
-        read -t $timeLeft -p "Which workflow modification would you like to run: " workflowModification <&3 >> /dev/null
+        read -r -t $timeLeft -p "Which workflow modification would you like to run: " workflowModification
     done
 }
 
@@ -230,12 +228,14 @@ IFS=""
 . src/prompt_user.sh
 
 if [[ -f personal_automation_info/time_manager.csv ]]; then
-    read -p "It seems like you already have a workflow created. Do you want to use this workflow? (y/n): " workflowOption
+    read -r -p "It seems like you already have a workflow created. Do you want to use this workflow? (y/n): " workflowOption
     if [[ $workflowOption == 'y' ]]; then
         executeWorkflow
     elif [[ $workflowOption == 'n' ]]; then
         # truncate the "time_manager.csv" file to zero length
         : > personal_automation_info/time_manager.csv
+        # add the header line specifying the columns
+        echo "stepName,commands,timeInMinutes" > personal_automation_info/time_manager.csv
         createWorkflow
         executeWorkflow
     else

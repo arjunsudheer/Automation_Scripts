@@ -6,7 +6,7 @@ chooseFunction(){
 
     promptUser "${functionOptions[@]}"
 
-    read -p "What do you want to run: " webChoice
+    read -r -p "What do you want to run: " webChoice
 
     case $webChoice in
         "openWebPage"|1)

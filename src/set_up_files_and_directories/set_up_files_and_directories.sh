@@ -7,23 +7,23 @@ openFilesAndDirectories() {
     local appName=()
     local fileOrDirectoryCount=0
     # get the files or directories that the user wants to open, ignoring the first line in the file
-    while read -r name path app || [ -n "$name" ]; do
+    while read -r name path app; do
         filesOrDirectoriesOptions+=($name)
         fileOrDirectoryPaths+=($path)
         appNames+=($app)           
         (( fileOrDirectoryCount++ ))
-    done < <(tail -n +2 $automationScriptsDirectory/personal_automation_info/set_up_files_and_directories.csv)
+    done < <(tail -n +2 personal_automation_info/set_up_files_and_directories.csv)
     filesOrDirectoriesOptions+=("go back")
     filesOrDirectoriesOptions+=("exit")
     
     promptUser "${filesOrDirectoriesOptions[@]}" 
 
-    echo -e "\nNote: Typing the file or directory path by hand will open the file or directory in its default application. If you want the file or directory to open in the specified application, then please type the corresponding number instead."    
-    read -p "Which file or directory would you like to open: " fileOrDirectoryChoice
+    echo -e "\nNote: Typing the file's or directory's absolute path by hand will open the file or directory in its default application. If you want the file or directory to open in the specified application, then please type the corresponding number instead."    
+    read -r -p "Which file or directory would you like to open: " fileOrDirectoryChoice
 
-    if [[ $fileOrDirectoryChoice == "go back" || $fileOrDirectoryChoice -eq $(( fileOrDirectoryCount + 1 )) ]]; then
+    if [[ $($fileOrDirectoryChoice == "go back" 2>/dev/null) || $($fileOrDirectoryChoice -eq $(( fileOrDirectoryCount + 1 )) 2>/dev/null) ]]; then
         return
-    elif [[ $fileOrDirectoryChoice == "exit" || $fileOrDirectoryChoice -eq $(( fileOrDirectoryCount + 2 )) ]]; then
+    elif [[ $($fileOrDirectoryChoice == "exit" 2>/dev/null) || $($fileOrDirectoryChoice -eq $(( fileOrDirectoryCount + 2 )) 2>/dev/null) ]]; then
         exit
     # if the user types a number, then map it to the appropriate app name
     elif [[ $fileOrDirectoryChoice =~ ^[+-]?[0-9]+$ ]]; then
@@ -52,7 +52,5 @@ openFilesAndDirectories() {
     fi
 }
 
-# get the project directory absolute path
-automationScriptsDirectory=$(< .project_path.txt)
 # navigate to the project directory
-cd $automationScriptsDirectory
+cd $(< .project_path.txt)

@@ -1,15 +1,12 @@
 #!/bin/bash
 
 chooseFunction(){
-    # navigate back to the automation scripts directory to properly execute the functions
-    cd src/set_up_files_and_directories
-
     # store the function options in an array
     local functionOptions=("openFilesAndDirectories" "go back" "exit")
 
     promptUser "${functionOptions[@]}"
 
-    read -p "What do you want to run: " fileOrDirectoryOption
+    read -r -p "What do you want to run: " fileOrDirectoryOption
 
     case $fileOrDirectoryOption in
         1|"openFilesAndDirectories")

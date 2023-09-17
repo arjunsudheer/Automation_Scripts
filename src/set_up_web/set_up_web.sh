@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 openWebPage() {
     IFS=","
     local nameOptions=()
@@ -8,7 +7,7 @@ openWebPage() {
     local browserOptions=()
     local urlCount=0
     # get the url's that the user wants to open, ignoring the first line in the file
-    while read -r name url browser || [ -n "$name" ]; do
+    while read -r name url browser; do
         nameOptions+=($name)
         urlOptions+=($url)
         browserOptions+=($browser)
@@ -20,11 +19,11 @@ openWebPage() {
     promptUser "${nameOptions[@]}"
 
     echo -e "\nNote: Typing the url by hand will open the webpage in your default browser. If you want the webpage to open in the specified browser, then please type the corresponding number instead."    
-    read -p "Which web page would you like to open: " webChoice
+    read -r -p "Which web page would you like to open: " webChoice
 
-    if [[ $webChoice == "go back" || $webChoice -eq $(( urlCount + 1 )) ]]; then
+    if [[ $($webChoice == "go back" 2>/dev/null) || $($webChoice -eq $(( urlCount + 1 )) 2>/dev/null) ]]; then
         return
-    elif [[ $webChoice == "exit" || $webChoice -eq $(( urlCount + 2 )) ]]; then
+    elif [[ $($webChoice == "exit" 2>/dev/null) || $($webChoice -eq $(( urlCount + 2 )) 2>/dev/null) ]]; then
         exit
     # if the user types a number, then map it to the appropriate url name
     elif [[ $webChoice =~ ^[+-]?[0-9]+$ ]]; then

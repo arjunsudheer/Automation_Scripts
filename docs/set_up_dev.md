@@ -56,6 +56,9 @@ The following are the commands that are executable via set_up_dev.sh:
 # The set_up_dev.csv file
 The set_up_dev.csv file is used to keep track of your projects and the paths to your projects. It is expected that you enter projects and project path names into set_up_dev.csv in the following format.
 
-```project_name,path_to_project```
+```
+project_name,path_to_project
 
-Please **DO NOT** leave any blank lines in your file in order to follow the expected format. Also, please make sure that your path names are absolute paths and not relative paths. This ensures that we can access your project regardless of our location in your computer's file system.
+```
+
+Make sure to end your file with a blank lines in order to follow the expected format. Also, please make sure that your path names are absolute paths and not relative paths. This ensures that we can access your project regardless of our location in your computer's file system.

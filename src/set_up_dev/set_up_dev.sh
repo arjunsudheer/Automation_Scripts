@@ -1,7 +1,5 @@
 #!/bin/bash
 
-exec 3<&0
-
 navigateToProject() {
     IFS=","
     # navigate to the current project directory
@@ -12,7 +10,7 @@ navigateToProject() {
     declare -a projectPaths
     # read from the set_up_dev.txt file to see what projects options the user has given
     local projectCount=0
-    while read -r name path || [ -n "$name" ]; do
+    while read -r name path; do
         projectNames+=($name)
         projectPaths+=($path)
         (( projectCount++ ))
@@ -21,7 +19,7 @@ navigateToProject() {
     projectNames+=("exit")
 
     promptUser "${projectNames[@]}"
-    read -p "Which project would you like to navigate into: " devOption <&3
+    read -r -p "Which project would you like to navigate into: " devOption
 
     # if the user types a number, then map it to the appropriate project name
     local pathName="null"
@@ -63,7 +61,7 @@ performGithubActions(){
             echo -e "\n"
             promptUser "${githubActions[@]}"
             # prompt the user for what command they want to run
-            read -p "Which github command would you like to run: " gitCommand <&3
+            read -r -p "Which github command would you like to run: " gitCommand
         else
             local gitCommand=$1
         fi
@@ -76,7 +74,7 @@ performGithubActions(){
             2|"add")
                 # let the user add as many files as they want
                 while [[ true ]]; do
-                    read -p "Please enter the file name that you want to add. Type \"exit\" to quit: " fileName <&3
+                    read -r -p "Please enter the file name that you want to add. Type \"exit\" to quit: " fileName
                     if [[ $fileName == "exit" ]]; then
                         # return with a success code
                         return 0
@@ -86,8 +84,8 @@ performGithubActions(){
                 done
                 ;;
             3|"commit")
-                read -p "Please type your commit message: " commitMessage <&3
-                read -p "Do you want to add files first? (y/n): " confirmAdd <&3
+                read -r -p "Please type your commit message: " commitMessage
+                read -r -p "Do you want to add files first? (y/n): " confirmAdd
                 if [[ $confirmAdd == 'y' ]]; then
                     # only commit if adding files runs successfully
                     performGithubActions "add" && $(git commit -m $commitMessage)
@@ -96,7 +94,7 @@ performGithubActions(){
                 fi
                 ;;
             4|"push")
-                read -p "Do you want to commit files first? (y/n): " confirmCommit <&3
+                read -r -p "Do you want to commit files first? (y/n): " confirmCommit
                 if [[ $confirmCommit == 'y' ]]; then
                     # only push if committing runs successfully
                     performGithubActions "commit" && $(git push)
@@ -105,20 +103,20 @@ performGithubActions(){
                 fi
                 ;;
             5|"switch branch")
-                read -p "Enter the name of the branch you want to switch to: " branchName <&3
+                read -r -p "Enter the name of the branch you want to switch to: " branchName
                 $(git checkout $branchName)
                 ;;
             6|"open pull request")
-                read -p "Enter the title of your pull request: " prTitle <&3
-                read -p "Enter the body of your pull request: " prBody <&3
+                read -r -p "Enter the title of your pull request: " prTitle
+                read -r -p "Enter the body of your pull request: " prBody
                 # create a pull request using github cli with the specified title and body
                 $(gh pr create --title $prTitle --body $prBody)
                 ;;
             7|"merge")
-                read -p "Enter the name of the branch you would like to merge with main: " branchName <&3
+                read -r -p "Enter the name of the branch you would like to merge with main: " branchName
                 mergeTypes=("merge commit" "squash commit" "rebase commit" "go back" "exit")
                 promptUser ${mergeTypes[@]}
-                read -p "What type of merge would you like to perform: " mergeType
+                read -r -p "What type of merge would you like to perform: " mergeType
                 case $mergeType in
                     1|"merge commit")
                         # merge the specified branch with main using a merge commit, delete the local and remote branch afters

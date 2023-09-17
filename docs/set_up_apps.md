@@ -25,6 +25,7 @@ app_1
 app_2
 app_3
 app_N
+
 ```
 
-Please **DO NOT** leave any blank lines in your file in order to follow the expected format.
+Make sure to end your file with a blank lines in order to follow the expected format.

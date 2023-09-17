@@ -6,7 +6,7 @@ chooseFunction(){
 
     promptUser "${functionOptions[@]}"
 
-    read -p "What do you want to run: " appChoice
+    read -r -p "What do you want to run: " appChoice
 
     case $appChoice in
         1|"openApps")

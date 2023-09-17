@@ -21,6 +21,7 @@ The set_up_web.csv file contains the urls that the user wants to option to open.
 
 ```
 webpage_name,url,browser_to_open_url
+
 ```
 
-Please **DO NOT** leave any blank lines in your file in order to follow the expected format.
+Make sure to end your file with a blank lines in order to follow the expected format.

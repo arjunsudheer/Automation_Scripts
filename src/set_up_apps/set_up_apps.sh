@@ -4,7 +4,7 @@ openApps() {
     IFS=""
     local appsOptions=()
     local appsCount=0
-    while read line || [ -n "$line" ]; do
+    while read -r line; do
         appsOptions+=($line)
         (( appsCount++ ))
     done < personal_automation_info/set_up_apps.txt
@@ -13,11 +13,11 @@ openApps() {
     
     promptUser "${appsOptions[@]}" 
 
-    read -p "Which app would you like to open: " appChoice
+    read -r -p "Which app would you like to open: " appChoice
 
-    if [[ $appChoice == "go back" || $appChoice -eq $(( appsCount + 1 )) ]]; then
+    if [[ $($appChoice == "go back" 2>/dev/null) || $($appChoice -eq $(( appsCount + 1 )) 2>/dev/null) ]]; then
         return
-    elif [[ $appChoice == "exit" || $appChoice -eq $(( appsCount + 2 )) ]]; then
+    elif [[ $($appChoice == "exit" 2>/dev/null) || $($appChoice -eq $(( appsCount + 2  )) 2>/dev/null) ]]; then
         exit
     # if the user types a number, then map it to the appropriate app name
     elif [[ $appChoice =~ ^[+-]?[0-9]+$ ]]; then

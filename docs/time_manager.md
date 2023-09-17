@@ -107,6 +107,9 @@ The time_manager.sh file is in charge of creating and executing workflows that t
 ## The time_manager.csv file 
 The time_manager.csv file is used to keep track of your workflows that you want to be automatically executed. The time_manager.csv file expects your workflow information in the following format. 
 
-```workflow_step_name,workflow_function_commands (in array format),time_in_minutes```
+```
+workflow_step_name,workflow_function_commands (in array format),time_in_minutes
 
-Please **DO NOT** leave any blank lines in your file in order to follow the expected format. 
+```
+
+Make sure to end your file with a blank lines in order to follow the expected format.

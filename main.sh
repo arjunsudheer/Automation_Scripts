@@ -7,7 +7,7 @@ getAutomationScriptOption() {
 
 		promptUser "${automationScripts[@]}"
 
-		read -p "Which automation script would you like to run: " scriptOption
+		read -r -p "Which automation script would you like to run: " scriptOption
 
 		# run the appropriate automation script
 		case $scriptOption in
