@@ -1,14 +1,14 @@
 # Automation Scripts
 
-Welcome to the Automation Scripts Github repository! Automation scripts performes repetitive tasks and can setup your workflows for you. Below is a description of how to use and how to contribute to automation scripts.
+Welcome to the Automation Scripts Github repository! Automation scripts performs repetitive tasks and can setup your workflows for you. Below is a description of how to use and how to contribute to automation scripts.
 
 ## Installation Guide 
 
-This section will talk about how to install the neccessary componenets and get the automation scripts up and running on your system.
+This section will talk about how to install the necessary components and get the automation scripts up and running on your system.
 
 ### Bash Installation Guide
 
-These automation scripts use the Bash shell. The curent supported Bash version is Bash 3. 
+These automation scripts use the Bash shell.
 
 #### Mac Users
 
@@ -71,9 +71,9 @@ The following table summarizes how to use the files within the personal_automati
 | File Name | How to Use this file | Associated With |
 | :-------: | :------------------: | :-------------: |
 | [set_up_apps.txt](docs/set_up_apps.md) | Put the name of the app you want to open on each new line. | set_up_apps.sh |
-| [set_up_dev.csv](docs/set_up_dev.md) | In a comma seperated list, put the name of the project first, then the absolute path to the project.  Put each project on a new line. | set_up_dev.sh
-| [set_up_files_and_directories.csv](docs/run_set_up_files_and_directories.md) | In a comma seperated list, put the file name first, then the absolute path to the file, then the application you want to open the file in. Put each file on a new line. | set_up_files_and_directories.sh |
-| [set_up_web.csv](docs/set_up_web.md) | In a comma seperated list, put the name of the webpage, then the url of the webpage you want to open, the the browswer you want to open the url in. Put each url on a new line. | set_up_web.sh |
-| [time_manger.csv](docs/time_manager.md) | In a comma seperated list, put the name of the workflow step, then put a list of commands seperated by spaces that you want to run, then put the time in minutes that you want to spend on the workflow step. Put each workflow step on a new line. | time_manager.sh |
+| [set_up_dev.csv](docs/set_up_dev.md) | In a comma separated list, put the name of the project first, then the absolute path to the project.  Put each project on a new line. | set_up_dev.sh
+| [set_up_files_and_directories.csv](docs/run_set_up_files_and_directories.md) | In a comma separated list, put the file name first, then the absolute path to the file, then the application you want to open the file in. Put each file on a new line. | set_up_files_and_directories.sh |
+| [set_up_web.csv](docs/set_up_web.md) | In a comma separated list, put the name of the webpage, then the url of the webpage you want to open, the the browser you want to open the url in. Put each url on a new line. | set_up_web.sh |
+| [time_manger.csv](docs/time_manager.md) | In a comma separated list, put the name of the workflow step, then put a list of commands separated by spaces that you want to run, then put the time in minutes that you want to spend on the workflow step. Put each workflow step on a new line. | time_manager.sh |
 
 Please click on the links and read the documentation to get a better understanding of the expected format for all the files within the personal_automation_info directory.
