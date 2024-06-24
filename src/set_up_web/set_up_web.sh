@@ -1,61 +1,5 @@
 #!/bin/bash
 
-openWebPage() {
-    IFS=","
-    local nameOptions=()
-    local urlOptions=()
-    local browserOptions=()
-    local urlCount=0
-    # get the url's that the user wants to open, ignoring the first line in the file
-    while read -r name url browser; do
-        nameOptions+=($name)
-        urlOptions+=($url)
-        browserOptions+=($browser)
-        (( urlCount++ ))
-    done < <(tail -n +2 personal_automation_info/set_up_web.csv)
-    urlOptions+=("go back")
-    urlOptions+=("exit")
-    
-    promptUser "${nameOptions[@]}"
-    
-    echo -e "\nNote: Typing the url by hand will open the webpage in your default browser. If you want the webpage to open in the specified browser, then please type the corresponding number instead."
-    read -r -p "Which web page would you like to open: " webChoice
-    
-    if [[ $($webChoice == "go back" 2>/dev/null) || $($webChoice -eq $(( urlCount + 1 )) 2>/dev/null) ]]; then
-        return
-        elif [[ $($webChoice == "exit" 2>/dev/null) || $($webChoice -eq $(( urlCount + 2 )) 2>/dev/null) ]]; then
-        exit
-        # if the user types a number, then map it to the appropriate url name
-        elif [[ $webChoice =~ ^[+-]?[0-9]+$ ]]; then
-        # check to see if the inputted number is less than or equal to urlCount to make sure it is a valid option
-        if [[ $webChoice -le $urlCount && $webChoice -gt 0 ]]; then
-            # if the user is using MacOS, use the open command, otherwise, run the Linux command of xdg-open
-            if [[ $OSTYPE == "darwin"* ]]; then
-                open -a ${browserOptions[$(( webChoice - 1 ))]} ${urlOptions[$(( $webChoice - 1 ))]}
-            else
-                xdg-open ${browserOptions[$(( webChoice - 1 ))]} ${urlOptions[$(( $webChoice - 1 ))]}
-            fi
-        else
-            echo -e "\nInvalid selection. If you want to open a new file or directory, please make sure that the name and path are added to the \"set_up_web.csv\" file."
-            echo -e "This is what your \"set_up_web.csv\" file has right now.\n"
-            cat personal_automation_info/set_up_web.csv
-            echo -e "\n"
-        fi
-        # if the user types the url instead, then just use the url name
-    else
-        # if the user is using MacOS, use the open command, otherwise, run the Linux command of xdg-open
-        if [[ $OSTYPE == "darwin"* ]]; then
-            open -u $webChoice
-        else
-            xdg-open $webChoice
-        fi
-    fi
-}
-
-# navigate to the project directory
-# cd $(< .project_path.txt)
-
-# CHANGE THE CODE BELOW
 # Opens the web page specified as the argument
 openWebPage() {
     # Set IFS to the empty string so web pages can be opened with browsers that contain a space in their name
@@ -107,7 +51,7 @@ openAllWebPages() {
             # Reset IFS to the comma delimter since IFS is changed in the openWebPage function
             IFS=","
             sleep 1
-        done < <(tail -n +2 $webFile)
+        done < $webFile
     else
         echo "Not a valid file"
     fi
@@ -120,7 +64,6 @@ createWebPageList() {
     IFS=""
     # Specify a default value of "web_page_list" if a filename is not specified
     read -e -p "Please enter the name of your web page list file (omit the file extension) [web_page_list]: " -i "web_page_list" webListFile
-    echo Url,Browser >> ../../personal_automation_info/web/$webListFile.csv
     
     read -p "Please enter the url of the web page you want to open: " webPage
     read -p "Please enter the browser that you want to open the url in. Type 'quit' to stop: " webBrowser
@@ -132,5 +75,3 @@ createWebPageList() {
         read -p "Please enter the browser that you want to open the url in. Type 'quit' to stop: " webBrowser
     done
 }
-
-createWebPageList
