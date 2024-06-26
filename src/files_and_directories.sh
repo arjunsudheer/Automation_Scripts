@@ -5,19 +5,16 @@ openFilesAndDirectories() {
     # Set IFS to the empty string so files and directories that contain spaces in their names can be opened
     IFS=""
     # if the user is using MacOS, use the open command, otherwise, run the Linux command of xdg-open
-    if [[ $OSTYPE == "darwin"* ]]
-    then
+    if [[ $OSTYPE == "darwin"* ]]; then
         # If an app was specified, then open the file or directory using that app, otherwise, use the default app
-        if [[ -z $2 ]]
-        then
+        if [[ -z $2 ]]; then
             open -u $1
         else
             open -a $2 $1
         fi
     else
         # If an app was specified, then open the file or directory using that app, otherwise, use the default app
-        if [[ -z $2 ]]
-        then
+        if [[ -z $2 ]]; then
             xdg-open $1
         else
             xdg-open $2 $1
@@ -27,21 +24,14 @@ openFilesAndDirectories() {
 
 # Opens all the files and directories listed in the file specified by the user as an argument
 openAllFilesAndDirectories() {
-    # If a file was not specified, then list the available app options for the user
-    if [[ -z $1 ]]
-    then
-        readarray -t fileAndDirectoryOptions < <(ls ../../personal_automation_info/file_and_directory/)
-        select file in ${fileAndDirectoryOptions[@]}
-        do
-            fdFile="../../personal_automation_info/file_and_directory/$file"
-            break
-        done
-    else
-        fdFile="../../personal_automation_info/file_and_directory/$1"
-    fi
+    readarray -t fileAndDirectoryOptions < <(ls ../../personal_automation_info/file_and_directory/)
+    select file in ${fileAndDirectoryOptions[@]}; do
+        fdFile="../../personal_automation_info/file_and_directory/$file"
+        break
+    done
+    
     # Open all the files and directories specified in the file
-    if [[ -f $fdFile ]]
-    then
+    if [[ -f $fdFile ]]; then
         IFS=","
         # get the url's that the user wants to open, ignoring the first line in the file
         while read -r path app; do
@@ -64,8 +54,7 @@ createFileAndDirectoryList() {
     
     read -p "Please enter the path to the file or directory you want to open: " fdPath
     read -p "Please enter the app that you want to open the file or directory in. Type 'quit' to stop: " fdApp
-    while [[ ! -z $fdPath && ! -z $fdApp && $fdApp != "quit" ]]
-    do
+    while [[ ! -z $fdPath && ! -z $fdApp && $fdApp != "quit" ]]; do
         # Only add the file or directory if a non-empty string was passed
         echo $fdPath,$fdApp >> ../../personal_automation_info/file_and_directory/$fdListFile.csv
         read -p "Please enter the path to the file or directory you want to open: " fdPath

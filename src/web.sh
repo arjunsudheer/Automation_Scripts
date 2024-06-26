@@ -6,19 +6,16 @@ openWebPage() {
     # Ex: "Google Chrome"
     IFS=""
     # if the user is using MacOS, use the open command, otherwise, run the Linux command of xdg-open
-    if [[ $OSTYPE == "darwin"* ]]
-    then
+    if [[ $OSTYPE == "darwin"* ]]; then
         # If a browser was specified, then open the web page using that browser, otherwise, use the default browser
-        if [[ -z $2 ]]
-        then
+        if [[ -z $2 ]]; then
             open -u $1
         else
             open -a $2 $1
         fi
     else
         # If a browser was specified, then open the web page using that browser, otherwise, use the default browser
-        if [[ -z $2 ]]
-        then
+        if [[ -z $2 ]]; then
             xdg-open $1
         else
             xdg-open $2 $1
@@ -29,21 +26,14 @@ openWebPage() {
 
 # Opens all the apps listed in the file specified by the user as an argument
 openAllWebPages() {
-    # If a file was not specified, then list the available app options for the user
-    if [[ -z $1 ]]
-    then
-        readarray -t webOptions < <(ls ../../personal_automation_info/web/)
-        select file in ${webOptions[@]}
-        do
-            webFile="../../personal_automation_info/web/$file"
-            break
-        done
-    else
-        webFile="../../personal_automation_info/web/$1"
-    fi
+    readarray -t webOptions < <(ls ../../personal_automation_info/web/)
+    select file in ${webOptions[@]}; do
+        webFile="../../personal_automation_info/web/$file"
+        break
+    done
+    
     # Open all the web pages specified in the file
-    if [[ -f $webFile ]]
-    then
+    if [[ -f $webFile ]]; then
         IFS=","
         # get the url's that the user wants to open, ignoring the first line in the file
         while read -r url browser; do
@@ -67,8 +57,7 @@ createWebPageList() {
     
     read -p "Please enter the url of the web page you want to open: " webPage
     read -p "Please enter the browser that you want to open the url in. Type 'quit' to stop: " webBrowser
-    while [[ ! -z $webPage && ! -z $webBrowser && $webBrowser != "quit" ]]
-    do
+    while [[ ! -z $webPage && ! -z $webBrowser && $webBrowser != "quit" ]]; do
         # Only add the web page if a non-empty string was passed
         echo $webPage,$webBrowser >> ../../personal_automation_info/web/$webListFile.csv
         read -p "Please enter the url of the web page you want to open: " webPage
