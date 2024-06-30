@@ -1,9 +1,14 @@
 #!/bin/bash
 
+# Store the filepath of this script
+dir="${BASH_SOURCE%/*}"
+if [[ ! -d "$dir" ]]; then
+    dir="$PWD"
+fi
+
 # Opens the web page specified as the argument
 openWebPage() {
-    # Set IFS to the empty string so web pages can be opened with browsers that contain a space in their name
-    # Ex: "Google Chrome"
+    # Set IFS to the empty string so web pages can be opened with browsers that contain a space in their namelocal
     IFS=""
     # if the user is using MacOS, use the open command, otherwise, run the Linux command of xdg-open
     if [[ $OSTYPE == "darwin"* ]]; then
@@ -26,11 +31,22 @@ openWebPage() {
 
 # Opens all the apps listed in the file specified by the user as an argument
 openAllWebPages() {
-    readarray -t webOptions < <(ls ../../personal_automation_info/web/)
+    # cd into the web directory so only the filenames are printed instead of the full filepaths
+    local originalDir=$(pwd)
+    cd $dir/personal_automation_info/web
+    if [[ -z $(ls) ]]; then
+        echo "The web directory is empty. Please create a web list file first."
+        cd $originalDir
+        exit 1
+    fi
+    local webOptions=(*)
+    cd $originalDir
+    
     select file in ${webOptions[@]}; do
-        webFile="../../personal_automation_info/web/$file"
+        local webFile="$dir/personal_automation_info/web/$file"
         break
-    done
+        # Use /dev/tty to read from user input instead of stdin
+    done < /dev/tty
     
     # Open all the web pages specified in the file
     if [[ -f $webFile ]]; then
@@ -50,16 +66,25 @@ openAllWebPages() {
 # Allows the user to create a file that specifies a list of web pages to be opened
 createWebPageList() {
     # Set IFS to the empty string so web browsers with spaces in their names can be used
-    # Ex: "Google Chrome"
     IFS=""
     # Specify a default value of "web_page_list" if a filename is not specified
-    read -e -p "Please enter the name of your web page list file (omit the file extension) [web_page_list]: " -i "web_page_list" webListFile
+    read -e -p "Please enter the name of your web page list file (omit the file extension) [web_page_list]: " webListFile
+    if [[ -z $webListFile ]]; then
+        webListFile="web_page_list"
+    fi
+    
+    if [[ -f $dir/personal_automation_info/web/$webListFile.csv ]]; then
+        read -p "$webListFile.csv already exists. Do you want to overwrite it? (y/n): " overwrite
+        if [[ $overwrite == "y" ]]; then
+            > $dir/personal_automation_info/web/$webListFile.csv
+        fi
+    fi
     
     read -p "Please enter the url of the web page you want to open: " webPage
     read -p "Please enter the browser that you want to open the url in. Type 'quit' to stop: " webBrowser
     while [[ ! -z $webPage && ! -z $webBrowser && $webBrowser != "quit" ]]; do
         # Only add the web page if a non-empty string was passed
-        echo $webPage,$webBrowser >> ../../personal_automation_info/web/$webListFile.csv
+        echo $webPage,$webBrowser >> $dir/personal_automation_info/web/$webListFile.csv
         read -p "Please enter the url of the web page you want to open: " webPage
         read -p "Please enter the browser that you want to open the url in. Type 'quit' to stop: " webBrowser
     done
