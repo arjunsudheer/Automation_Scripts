@@ -20,24 +20,6 @@ chsh -s bin/bash
 
 After you run this command, make sure to relaunch your terminal.
 
-#### Windows Users
-
-If you are on Windows, we recommend that you install Windows Subsystem for Linux 2 (WSL 2). This will allow you to use a Linux environment directly in Windows without needing to dual boot.
-
-We recommend you follow [Microsoft's documentation on how to install WSL2 for your Windows machine](https://learn.microsoft.com/en-us/windows/wsl/install). 
-
-To summarize the article above, you can run the following command in powershell:
-
-```
-wsl --install
-```
-
-This will install the default Linux distribution which is Ubuntu. If you prefer to install a different distribution, then please refer to Microsoft's documentation as they explain how to do so. 
-
-Once WSL2 is installed, you should run the automation scripts inside of WSL2 instead of Windows Command Prompt or Powershell. 
-
-The default shell in WSL 2 should be bash. Refer to the next section for Linux Users to confirm if your default shell is bash.
-
 #### Linux Users
 
 Your default shell should already be bash. You can verify this by running the following command:
@@ -72,9 +54,9 @@ Make sure that you replace ```<path to automation_scripts.sh>``` with the absolu
 
 After running the command above, restart your terminal. You should now be able to type ```atms``` in your terminal to quickly run Automation Scripts. Try running ```atms -h``` for a quick guide on how to use Automation Scripts.
 
-### Windows (WSL 2) and Linux Users
+### Linux Users
 
-To add an alias to Automation Scripts on a Windows machine running WSL 2 or a Linux machine, run the following command in your terminal:
+To add an alias to Automation Scripts on a Linux machine, run the following command in your terminal:
 
 ```
 echo 'alias atms="<path to automation_scripts.sh>"' >> ~/.bashrc
