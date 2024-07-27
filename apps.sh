@@ -11,7 +11,7 @@ openApp() {
     if [[ $OSTYPE == "darwin"* ]]; then
         open -a $1
     else
-        xdg-open $1
+        $1
     fi
 }
 

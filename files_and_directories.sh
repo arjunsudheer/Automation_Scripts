@@ -23,7 +23,7 @@ openFilesAndDirectories() {
         if [[ -z $2 ]]; then
             xdg-open $1
         else
-            xdg-open $2 $1
+            $2 $1
         fi
     fi
 }
