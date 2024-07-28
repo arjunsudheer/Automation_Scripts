@@ -23,7 +23,7 @@ help() {
     echo -e "\n"
     echo "-A Opens all apps/files/directories/webpages in a specified file. Automation scripts will prompt you to select a file."
     echo "-C Creates an apps/files/directories/webapges list file that can then be used with the -a option described above."
-    echo "-O Opens the specified app/file/directory/webpage in it's default app or browswer. Required argument specifying the app/file/directory/webpage you want to open."
+    echo "-O Opens the specified app/file/directory/webpage in it's default app or browser. Required argument specifying the app/file/directory/webpage you want to open."
     echo -e "\n"
     echo -e "Specifying no options will cause Automation Scripts to prompt you to pick a time manager workflow to start.\n"
 }
